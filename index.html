@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leroy's European Trip - Listening Exercise</title>
+<style>
+body{font-family:Arial,sans-serif;max-width:1000px;margin:auto;padding:20px;background:#f5f7fb}
+h1{text-align:center;color:#2c3e50}
+.card{background:#fff;padding:25px;border-radius:15px;margin-top:20px;box-shadow:0 3px 10px rgba(0,0,0,.1)}
+.word-bank{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:25px}
+.word{background:#4361ee;color:#fff;padding:10px 15px;border-radius:8px;cursor:grab;font-weight:bold}
+.question{margin:18px 0;font-size:18px;line-height:1.8}
+.dropzone{display:inline-block;min-width:130px;min-height:35px;border:2px dashed #4361ee;border-radius:8px;text-align:center;background:white;vertical-align:middle}
+.correct{background:#06d6a0!important;color:#fff;border-color:#06d6a0!important}
+.wrong{background:#ef233c!important;color:#fff;border-color:#ef233c!important}
+button{background:#4361ee;color:#fff;border:none;padding:12px 25px;border-radius:8px;font-size:18px;cursor:pointer;margin:5px}
+#result{margin-top:25px;font-size:26px;font-weight:bold;text-align:center}
+.tf-feedback{margin-left:10px;font-weight:bold}
+audio{width:100%}
+</style>
+</head>
+<body>
+<h1>🎧 Leroy's European Trip</h1>
+<audio controls>
+<source src="2L4-vacation-stress.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+<h2>Part 1: Drag the Words</h2>
+<div class="word-bank">
+<div class="word" draggable="true" id="party">party</div>
+<div class="word" draggable="true" id="Edinburgh">Edinburgh</div>
+<div class="word" draggable="true" id="hamburger">hamburger</div>
+<div class="word" draggable="true" id="postcards">postcards</div>
+<div class="word" draggable="true" id="steak">steak</div>
+<div class="word" draggable="true" id="book">book</div>
+<div class="word" draggable="true" id="harmonica">harmonica</div>
+<div class="word" draggable="true" id="Helsinki">Helsinki</div>
+<div class="word" draggable="true" id="spaghetti">spaghetti</div>
+<div class="word" draggable="true" id="computer">computer</div>
+</div>
+
+<div class="question">1. Leroy is tired because he went to a <span class="dropzone" data-answer="party"></span> last night.</div>
+<div class="question">2. On Monday, Leroy visited <span class="dropzone" data-answer="Edinburgh"></span> in Scotland.</div>
+<div class="question">3. William and Leroy chose to eat a <span class="dropzone" data-answer="hamburger"></span> instead of traditional Scottish food.</div>
+<div class="question">4. In Paris, Leroy bought some <span class="dropzone" data-answer="postcards"></span> to send home.</div>
+<div class="question">5. On the way to Rome, Leroy had a large <span class="dropzone" data-answer="steak"></span> and chips for lunch.</div>
+<div class="question">6. In Rome, Leroy bought a <span class="dropzone" data-answer="book"></span> as a souvenir.</div>
+<div class="question">7. Elisabeth is playing the <span class="dropzone" data-answer="harmonica"></span> that Leroy bought.</div>
+<div class="question">8. Tomorrow they are flying to <span class="dropzone" data-answer="Helsinki"></span> in Finland.</div>
+<div class="question">9. Leroy plans to eat <span class="dropzone" data-answer="spaghetti"></span> when he arrives in Finland.</div>
+<div class="question">10. Leroy wants to buy a <span class="dropzone" data-answer="computer"></span> because electronic goods are cheaper there.</div>
+</div>
+
+<div class="card">
+<h2>Part 2: True or False</h2>
+<div class="question">1. Leroy went to bed at three o'clock after a party.
+<label><input type="radio" name="tf1" value="True">True</label><label><input type="radio" name="tf1" value="False">False</label><span id="fb1" class="tf-feedback"></span></div>
+<div class="question">2. Leroy bought a kilt in Edinburgh.
+<label><input type="radio" name="tf2" value="True">True</label><label><input type="radio" name="tf2" value="False">False</label><span id="fb2" class="tf-feedback"></span></div>
+<div class="question">3. Leroy travelled from Edinburgh to Paris by train.
+<label><input type="radio" name="tf3" value="True">True</label><label><input type="radio" name="tf3" value="False">False</label><span id="fb3" class="tf-feedback"></span></div>
+<div class="question">4. Leroy enjoyed the French food on the train.
+<label><input type="radio" name="tf4" value="True">True</label><label><input type="radio" name="tf4" value="False">False</label><span id="fb4" class="tf-feedback"></span></div>
+<div class="question">5. Leroy sat next to John on the journey to Rome.
+<label><input type="radio" name="tf5" value="True">True</label><label><input type="radio" name="tf5" value="False">False</label><span id="fb5" class="tf-feedback"></span></div>
+<div class="question">6. Elisabeth is very good at playing the harmonica.
+<label><input type="radio" name="tf6" value="True">True</label><label><input type="radio" name="tf6" value="False">False</label><span id="fb6" class="tf-feedback"></span></div>
+<div class="question">7. Maria enjoys flying.
+<label><input type="radio" name="tf7" value="True">True</label><label><input type="radio" name="tf7" value="False">False</label><span id="fb7" class="tf-feedback"></span></div>
+</div>
+
+<div style="text-align:center">
+<button onclick="checkAnswers()">Check Answers</button>
+<button onclick="location.reload()">Try Again</button>
+</div>
+<div id="result"></div>
+
+<script>
+const draggables=document.querySelectorAll('.word');
+const dropzones=document.querySelectorAll('.dropzone');
+draggables.forEach(item=>item.addEventListener('dragstart',e=>e.dataTransfer.setData('text',item.id)));
+dropzones.forEach(zone=>{
+ zone.addEventListener('dragover',e=>e.preventDefault());
+ zone.addEventListener('drop',e=>{e.preventDefault();const id=e.dataTransfer.getData('text');zone.innerHTML=id;zone.dataset.user=id;});
+});
+
+function checkAnswers(){
+ let score=0;
+ dropzones.forEach(zone=>{
+  if(zone.dataset.user===zone.dataset.answer){zone.classList.add('correct');score++;}
+  else{zone.classList.add('wrong');zone.innerHTML=(zone.dataset.user||'blank')+'<br><small>✓ '+zone.dataset.answer+'</small>';}
+ });
+ const answers={tf1:"True",tf2:"False",tf3:"True",tf4:"False",tf5:"True",tf6:"False",tf7:"False"};
+ for(let k in answers){
+  const s=document.querySelector(`input[name="${k}"]:checked`);
+  const fb=document.getElementById("fb"+k.replace("tf",""));
+  if(s && s.value===answers[k]){fb.innerHTML="✓ Correct";fb.style.color="green";score++;}
+  else{fb.innerHTML="Correct: "+answers[k];fb.style.color="red";}
+ }
+ let percent=Math.round((score/17)*100);
+ document.getElementById("result").innerHTML=`Score: ${score}/17<br>Percentage: ${percent}%`;
+}
+</script>
+</body>
+</html>
